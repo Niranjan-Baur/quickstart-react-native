@@ -77,6 +77,7 @@ async function run() {
 
   const folders = [
     "src/api",
+    "src/assets",
     "src/navigation",
     "src/screens",
     "src/components",
