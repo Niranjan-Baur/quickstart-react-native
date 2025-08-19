@@ -3,15 +3,34 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "bin": {
     "quickstart-react-native": "index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "quickstart",
+    "quickstart-react-native",
+    "react-native",
+    "react-native-starter",
+    "cli",
+    "starter",
+    "scaffold",
+    "navigation",
+    "axios"
+  ],
+  "author": "Niranjan-Baur",
+  "license": "MIT",
+  "description": "quickstart-react-native is a starter template designed to help developers set up and launch React Native projects faster. It comes pre-configured with essential dependencies, folder structure, and best practices, so you can focus on building features instead of spending time on initial setup.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Niranjan-Baur/quickstart-react-native"
+  },
+  "bugs": {
+    "url": "https://github.com/Niranjan-Baur/quickstart-react-native/issues"
+  },
+  "homepage": "https://github.com/Niranjan-Baur/quickstart-react-native#readme",
   "dependencies": {
     "chalk": "^5.6.0",
     "execa": "^9.6.0",
