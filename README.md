@@ -33,11 +33,11 @@ This will
 - Set up React Navigation
   
 then this will ask:
-> Do you want to install react-native-paper?
+> ? Do you want to install react-native-paper?
 
 This will
 - Install `react-native-paper` and `@react-native-vector-icons/material-design-icons`
-- Modifly babel.config.js if yes,
+- Modifly `babel.config.js` if yes,
 - Create theme.js file at `src/theme/theme.js` if yes
 
 ## 📂 Folder Structure
