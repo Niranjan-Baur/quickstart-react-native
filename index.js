@@ -4,6 +4,7 @@ import chalk from "chalk";
 import { execa } from "execa";
 import fs from "fs";
 import path from "path";
+import ora from "ora";
 
 async function run() {
   console.log(chalk.green("🚀 Welcome to Quickstart React Native ⚛️"));
@@ -19,7 +20,9 @@ async function run() {
   ]);
 
   // Step 2: Initialize RN app
-  console.log(chalk.blue("📦 Creating React Native project..."));
+  const spinnerCreate = ora(
+    chalk.blue("📦 Creating React Native project...")
+  ).start();
 
   await execa(
     "npx",
@@ -27,19 +30,29 @@ async function run() {
     {
       stdio: "inherit",
     }
-  );
+  )
+    .then(() => {
+      spinnerCreate.succeed(chalk.green("✅ Project created successfully!"));
+    })
+    .catch((err) => {
+      spinnerCreate.fail(chalk.red("❌ Failed to create project"));
+      throw err;
+    });
 
   // Move into project
   process.chdir(projectName);
 
   // Step 3: Install essential packages
-  console.log(chalk.blue("🔗 Installing essential packages..."));
+  const spinnerInstall = ora(
+    chalk.blue("🔗 Installing essential packages...")
+  ).start();
 
   await execa(
     "npm",
     [
       "install",
       "axios",
+      "react-native-mmkv",
       "@react-navigation/native",
       "@react-navigation/native-stack",
       "@react-navigation/bottom-tabs",
@@ -47,7 +60,14 @@ async function run() {
       "react-native-safe-area-context",
     ],
     { stdio: "inherit" }
-  );
+  )
+    .then(() => {
+      spinnerInstall.succeed(chalk.green("✅ Essential packages installed!"));
+    })
+    .catch((err) => {
+      spinnerInstall.fail(chalk.red("❌ Failed to install essential packages"));
+      throw err;
+    });
 
   // Step 4: Ask for optional Paper
   const { withPaper } = await inquirer.prompt([
@@ -96,11 +116,58 @@ async function run() {
     "src/api/axiosConfig.js",
     `
 import axios from "axios";
+import { MMKV } from "react-native-mmkv";
+
+export const storage = new MMKV();
 
 const axiosInstance = axios.create({
   baseURL: "https://api.example.com", // change later
   timeout: 5000,
 });
+
+axiosInstance.interceptors.request.use(
+  async (config) => {
+    try {
+      const token = storage.getString("authToken");
+      if (token) {
+        config.headers.Authorization = \`Bearer \${token}\`;
+      }
+    } catch (error) {
+      console.log("Error reading token from storage:", error);
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor → handle token expiry / errors
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    const statusCode = error.response?.status;
+
+    if (statusCode === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const { data } = await axiosInstance.post("/auth/refresh", {
+          refreshToken: storage.getString("refreshToken"),
+        });
+
+        if (data.success && data.accessToken) {
+          storage.set("authToken", data.accessToken);
+          originalRequest.headers.Authorization = \`Bearer \${data.accessToken}\`;
+          return axiosInstance(originalRequest); // retry request
+        }
+      } catch (err) {
+        console.error("Error refreshing token:", err);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default axiosInstance;
 `
@@ -262,7 +329,6 @@ export default function App() {
 
 // --- PATCH MAINACTIVITY.KT ---
 function patchMainActivity(appName = "") {
-
   const mainActivityPath = path.join(
     process.cwd(),
     "android/app/src/main/java/com/",
