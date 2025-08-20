@@ -20,9 +20,7 @@ async function run() {
   ]);
 
   // Step 2: Initialize RN app
-  const spinnerCreate = ora(
-    chalk.blue("📦 Creating React Native project...")
-  ).start();
+  console.log(chalk.blue("📦 Creating React Native project..."));
 
   await execa(
     "npx",
@@ -30,22 +28,13 @@ async function run() {
     {
       stdio: "inherit",
     }
-  )
-    .then(() => {
-      spinnerCreate.succeed(chalk.green("✅ Project created successfully!"));
-    })
-    .catch((err) => {
-      spinnerCreate.fail(chalk.red("❌ Failed to create project"));
-      throw err;
-    });
+  );
 
   // Move into project
   process.chdir(projectName);
 
   // Step 3: Install essential packages
-  const spinnerInstall = ora(
-    chalk.blue("🔗 Installing essential packages...")
-  ).start();
+  console.log(chalk.blue("🔗 Installing essential packages..."));
 
   await execa(
     "npm",
@@ -60,14 +49,7 @@ async function run() {
       "react-native-safe-area-context",
     ],
     { stdio: "inherit" }
-  )
-    .then(() => {
-      spinnerInstall.succeed(chalk.green("✅ Essential packages installed!"));
-    })
-    .catch((err) => {
-      spinnerInstall.fail(chalk.red("❌ Failed to install essential packages"));
-      throw err;
-    });
+  );
 
   // Step 4: Ask for optional Paper
   const { withPaper } = await inquirer.prompt([
@@ -151,7 +133,7 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const { data } = await axiosInstance.post("/auth/refresh", {
+        const { data } = await axiosInstance.post("Your Refresh Token API", {
           refreshToken: storage.getString("refreshToken"),
         });
 
