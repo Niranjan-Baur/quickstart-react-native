@@ -34,7 +34,6 @@
   "dependencies": {
     "chalk": "^5.6.0",
     "execa": "^9.6.0",
-    "inquirer": "^12.9.3",
-    "ora": "^8.2.0"
+    "inquirer": "^12.9.3"
   }
 }
