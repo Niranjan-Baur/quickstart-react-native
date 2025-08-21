@@ -1,15 +1,21 @@
 # 📱 quickstart-react-native
+
 🚀 quickstart-react-native is an open-source CLI tool that lets you instantly create a React Native app with `axios`, `react-navigation`, `react-native-paper` (optional) package, and pre-configured project structure — all in one command.
 
 ## Features
+
 - Interactive Setup — Ask you for your project name, optional packages
 - Default Package Support — `axios`, `react-navigation`
 - Optional Packages — `react-native-paper`
 - Automatic Folder Structure — creates api, components, navigation, screens, theme, utils folders
 - Boilerplate Ready — replaces default React Native boilerplate with a clean welcome page
-- Axios Setup — pre-configured Axios instance.
+- **Axios Setup** — pre-configured Axios instance with:
+  - 🔑 **MMKV Storage** — Secure token management
+  - 🔄 **Automatic Token Handling** — Access token + Refresh token support
+  - 🚫 **Automatic Retry on Expiry** — Refresh flow handled seamlessly
 
 ## 📦 Installation
+
 You don’t need to install it globally — run it instantly with `npx`:
 
 ```
@@ -17,12 +23,13 @@ You don’t need to install it globally — run it instantly with `npx`:
 ```
 
 ## 🛠 Usage
-When you run `npx quickstart-react-native`, you will be prompted to:
 
+When you run `npx quickstart-react-native`, you will be prompted to:
 
 > ? Enter project name: MyApp
 
-This will 
+This will
+
 - create a new React Native project called `/MyApp`.
 - Install `axios`
 - Install `@react-navigation/native`, `@react-navigation/native-stack`, `@react-navigation/bottom-tabs`
@@ -31,16 +38,19 @@ This will
 - Add a clean welcome screen
 - Set up an Axios instance at `src/api/axiosConfig.js`
 - Set up React Navigation
-  
+
 then this will ask:
+
 > ? Do you want to install react-native-paper?
 
 This will
+
 - Install `react-native-paper` and `@react-native-vector-icons/material-design-icons`
 - Modifly `babel.config.js` if yes,
 - Create theme.js file at `src/theme/theme.js` if yes
 
 ## 📂 Folder Structure
+
 After running, your project will look like this:
 
 ```
@@ -59,6 +69,7 @@ MyApp/
 ```
 
 ## 👐 Contributing
+
 We welcome contributions! Follow these steps:
 
 1. Fork the repository
@@ -71,9 +82,3 @@ Before submitting, please ensure:
 
 - Your code follows project style guidelines
 - You have tested your changes locally
-
-
-
-
-
-
